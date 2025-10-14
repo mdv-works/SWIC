@@ -40,6 +40,71 @@ function displayMetadata(metadata) {
   container.appendChild(ul);
 }
 
+function setWritingMode(mode) {
+  const contextArea = document.getElementById("contextArea");
+  const tategakiBtn = document.getElementById("tategakiBtn");
+  const yokogakiBtn = document.getElementById("yokogakiBtn");
+
+  if (mode === "yokogaki") {
+    contextArea.classList.add("yokogaki");
+    yokogakiBtn.classList.add("active");
+    tategakiBtn.classList.remove("active");
+  } else {
+    // Default is Tategaki
+    contextArea.classList.remove("yokogaki");
+    tategakiBtn.classList.add("active");
+    yokogakiBtn.classList.remove("active");
+  }
+}
+
+async function search() {
+  const word = document.getElementById("wordInput").value.trim();
+  const size = document.getElementById("contextSelect").value;
+  const contextArea = document.getElementById("contextArea");
+  const status = document.getElementById("status");
+  const metadataArea = document.getElementById("metadataArea");
+
+  if (!word) {
+    status.innerText = "Please enter a word.";
+    metadataArea.classList.add("hidden");
+    return;
+  }
+
+  currentWord = word;
+  status.innerText = "Searching...";
+  contextArea.innerHTML = "";
+  metadataArea.classList.add("hidden");
+
+  await eel.set_context_size(size)();
+  // Expecting a result object: {text: string, count: number, metadata: string[]}
+  const result = await eel.search_word(word)();
+
+  // Check if the result is the expected object structure
+  if (
+    typeof result === "object" &&
+    result !== null &&
+    "text" in result &&
+    "count" in result &&
+    "metadata" in result
+  ) {
+    contextArea.innerHTML = highlight(result.text, currentWord);
+    displayMetadata(result.metadata); // Display metadata
+
+    if (result.count > 0) {
+      // Display the total count
+      status.innerText = `Results for “${word}”: ${result.count} entries found.`;
+    } else {
+      // Display the error message (e.g., "No results found...")
+      status.innerText = result.text;
+    }
+  } else {
+    // Fallback for unexpected results (e.g., if the backend failed to return JSON)
+    contextArea.innerHTML = "";
+    status.innerText = "An unknown search error occurred.";
+    metadataArea.classList.add("hidden");
+  }
+}
+
 async function search() {
   const word = document.getElementById("wordInput").value.trim();
   const size = document.getElementById("contextSelect").value;

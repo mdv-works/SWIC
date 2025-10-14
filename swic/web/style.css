@@ -26,6 +26,44 @@ body {
   height: 100%;
   width: 100%;
   padding: 2rem 4rem;
+  /* Add relative positioning for absolute positioning of the switch */
+  position: relative;
+}
+
+/* --- Style Switch (New) --- */
+.style-switch {
+  position: absolute; /* Position relative to #app */
+  top: 1.5rem;
+  left: 2rem;
+  display: flex;
+  border: 1px solid #cbbca6; /* Same border as inputs for coherence */
+  border-radius: 0px;
+  overflow: hidden; /* To manage the border and active state */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.style-switch button {
+  /* Reset button styles for the switch */
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: #fa8162;
+  color: #ffffff;
+  border: none;
+  border-radius: 0px;
+  transition: all 0.1s ease;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Ensure the hover is clear */
+.style-switch button:hover {
+  background: #7e2d18;
+}
+
+/* Style for the active/selected mode */
+.style-switch button.active {
+  background: #7e2d18; /* Highlight the active one */
+  color: #ffffff;
+  pointer-events: none; /* Disable clicking the active button */
 }
 
 /* --- Header --- */
@@ -37,7 +75,7 @@ h1 {
   color: #3c2f25;
   margin-top: 0;
   margin-bottom: 1.5rem;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* --- Search Row --- */
@@ -67,7 +105,7 @@ select:focus {
 }
 
 button {
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 0px;
@@ -95,11 +133,10 @@ button:disabled {
   margin-bottom: 1rem;
 }
 
-/* --- Context Display --- */
+/* --- Context Display (Tategaki - Vertical Japanese text - Default) --- */
 #contextArea {
   flex: 1;
   width: 750px;
-
   border: 1px solid #e2d8c7;
   border-radius: 0px;
   padding: 5rem;
@@ -111,14 +148,26 @@ button:disabled {
   align-self: center;
   /* === Vertical Japanese text (Corrected) === */
   writing-mode: vertical-rl;
-  /* Use 'mixed' or omit text-orientation for better punctuation positioning. */
-  text-orientation: mixed;
-  /* Critical fix: Add 'vrt2' and 'palt' for correct vertical punctuation placement. */
+  text-orientation: upright;
   font-feature-settings: "vert", "vkna", "vrt2", "palt";
   white-space: normal; /* Let text wrap naturally */
   overflow-x: auto; /* Scroll horizontally for long text */
   overflow-y: hidden; /* No vertical scroll needed */
   letter-spacing: 0.09rem;
+}
+
+/* --- Context Display (Yokogaki - Horizontal Japanese text - New) --- */
+/* Remove vertical text properties and set horizontal ones */
+#contextArea.yokogaki {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  font-feature-settings: normal; /* Resetting feature settings */
+  line-height: 1.8; /* A standard line height for horizontal text */
+  overflow-x: hidden; /* No horizontal scroll needed */
+  overflow-y: auto; /* Scroll vertically for long text */
+  letter-spacing: normal; /* Reset letter spacing */
+  padding: 2rem 3rem; /* Adjust padding for horizontal flow */
+  height: auto; /* Allow height to expand vertically */
 }
 
 /* Highlight search word */
@@ -184,7 +233,7 @@ button:disabled {
   min-width: 130px;
   background: #fa8162;
   color: rgb(255, 255, 255);
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 0.03em;
   border-radius: 0px;
   font-family: Arial, Helvetica, sans-serif;
@@ -199,6 +248,14 @@ button:disabled {
   #app {
     padding: 1rem;
   }
+
+  /* Adjust style-switch positioning for small screens */
+  .style-switch {
+    position: static; /* Let it flow normally */
+    margin-bottom: 1rem;
+    align-self: flex-start;
+  }
+
   .search-row {
     flex-direction: column;
   }
@@ -207,6 +264,9 @@ button:disabled {
     width: 100%;
     padding: 2rem;
     line-height: 2.5rem;
+  }
+  #contextArea.yokogaki {
+    padding: 2rem; /* Responsive padding for horizontal mode */
   }
   #metadataArea {
     width: 100%;

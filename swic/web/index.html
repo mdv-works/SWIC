@@ -11,6 +11,18 @@
   </head>
   <body>
     <div id="app">
+      <div class="style-switch">
+        <button
+          id="tategakiBtn"
+          onclick="setWritingMode('tategaki')"
+          class="active"
+        >
+          Tategaki
+        </button>
+        <button id="yokogakiBtn" onclick="setWritingMode('yokogaki')">
+          Yokogaki
+        </button>
+      </div>
       <div class="search-row">
         <input
           id="wordInput"

@@ -6,7 +6,7 @@ import os
 RESOURCES_DIR = os.path.join(os.path.dirname(__file__), 'resources')
 
 # Default file (fallback)
-DEFAULT_SOURCE_FILE = os.path.join(RESOURCES_DIR, 'Aozora_corpus.csv')
+DEFAULT_SOURCE_FILE = os.path.join(RESOURCES_DIR, 'Aozora Corpus.csv')
 
 # Font file (should be placed in a 'resources/fonts/' directory)
 # Using the same font URL as in the reference code for consistency
