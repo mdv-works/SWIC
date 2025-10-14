@@ -18,3 +18,7 @@ bin-release/
 # information for Eclipse / Flash Builder.
 /swic/tools/subtitles
 /swic/resources/subtitles
+swic/resources/Japanese News.csv
+swic/resources/fonts/HinaMincho-Regular.ttf
+swic/resources/Buncha Anime.csv
+swic/resources/Aozora Corpus.csv

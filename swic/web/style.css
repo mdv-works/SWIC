@@ -162,7 +162,7 @@ button:disabled {
   writing-mode: horizontal-tb;
   text-orientation: mixed;
   font-feature-settings: normal; /* Resetting feature settings */
-  line-height: 1.8; /* A standard line height for horizontal text */
+  line-height: 2; /* A standard line height for horizontal text */
   overflow-x: hidden; /* No horizontal scroll needed */
   overflow-y: auto; /* Scroll vertically for long text */
   letter-spacing: normal; /* Reset letter spacing */
