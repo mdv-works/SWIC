@@ -1,0 +1,157 @@
+/* --- General Layout --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f8f4ec;
+  font-family: "HinaMincho", "Noto Serif JP", serif;
+  color: #2b2119;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Main Container --- */
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 2rem 4rem;
+}
+
+/* --- Header --- */
+h1 {
+  font-weight: 500;
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+  color: #3c2f25;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+/* --- Search Row --- */
+.search-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+select {
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid #cbbca6;
+  border-radius: 6px;
+  background: #fdfaf5;
+  color: #2b2119;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  box-shadow: 0 0 0 2px #d1bfa2;
+}
+
+button {
+  font-size: 1.1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #d6c2a8;
+  color: #2b2119;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #c8b494;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Status Bar --- */
+#status {
+  text-align: center;
+  font-size: 1rem;
+  color: #5a4a3e;
+  margin-bottom: 1rem;
+}
+
+/* --- Context Display --- */
+#contextArea {
+  flex: 1;
+  width: 750px;
+  background: #fcfaf6;
+  border: 1px solid #e2d8c7;
+  border-radius: 0px;
+  padding: 5rem;
+  font-size: 1.4rem;
+  font-family: "Hina Mincho", "Noto Serif JP", serif;
+  line-height: 3rem;
+  color: #1a120a;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+  align-self: center;
+  /* === Vertical Japanese text (Corrected) === */
+  writing-mode: vertical-rl;
+  /* Use 'mixed' or omit text-orientation for better punctuation positioning. */
+  text-orientation: mixed;
+  /* Critical fix: Add 'vrt2' and 'palt' for correct vertical punctuation placement. */
+  font-feature-settings: "vert", "vkna", "vrt2", "palt";
+  white-space: normal; /* Let text wrap naturally */
+  overflow-x: auto; /* Scroll horizontally for long text */
+  overflow-y: hidden; /* No vertical scroll needed */
+  letter-spacing: 0.09rem;
+}
+
+/* Highlight search word */
+#contextArea strong,
+#contextArea b {
+  color: #a05a2c;
+}
+
+/* --- Control Buttons --- */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.controls button {
+  min-width: 130px;
+  background: #bfa57d;
+  color: white;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  border-radius: 8px;
+}
+
+.controls button:hover {
+  background: #a88b61;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  #app {
+    padding: 1rem;
+  }
+  .search-row {
+    flex-direction: column;
+  }
+  #contextArea {
+    font-size: 1.2rem;
+  }
+}

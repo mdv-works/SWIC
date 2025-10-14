@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Japanese Context Finder</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <div class="search-row">
+        <input
+          id="wordInput"
+          type="text"
+          placeholder="Enter Japanese word..."
+        />
+        <select id="sourceSelect"></select>
+        <select id="contextSelect">
+          <option value="1">1</option>
+          <option value="3">3</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="30">30</option>
+        </select>
+        <button onclick="search()">Search</button>
+      </div>
+
+      <div id="status">Ready.</div>
+
+      <div id="contextArea"></div>
+
+      <div class="controls">
+        <button onclick="prev()">Previous</button>
+        <button onclick="readAloud()">Read</button>
+        <button onclick="next()">Next</button>
+      </div>
+    </div>
+
+    <script src="/eel.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

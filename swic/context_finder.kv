@@ -1,0 +1,129 @@
+<ContextFinderLayout>:
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+
+    # Light Sepia Theme
+    canvas.before:
+        Color:
+            rgba: 0.98, 0.95, 0.90, 1  # light cream background
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    # Top Search and Settings Area
+    BoxLayout:
+        font_name: 'HinaMincho'
+        size_hint_y: None
+        height: '48dp'
+        spacing: 10
+
+        TextInput:
+            id: word_input
+            hint_text: 'Search Japanese Word'
+            multiline: False
+            size_hint_x: 0.7
+            font_size: '20dp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: 0.98, 0.96, 0.93, 1  # light neutral tone
+            foreground_color: 0.1, 0.1, 0.1, 1
+            on_text_validate: root.search_word(self.text)
+            font_name: 'HinaMincho'
+        
+        Spinner:
+            id: context_spinner
+            text: 'Context window'
+            values: ['1 sentence', '1 before 1 after', '2 before 2 after', '5 before 5 after', '15 before 15 after']
+            size_hint_x: 0.3
+            font_size: '18dp'
+            background_normal: ''
+            background_color: 0.85, 0.85, 0.85, 1  # neutral gray
+            color: 0.1, 0.1, 0.1, 1
+            on_text: root.set_context_size(self.text)
+
+        Button:
+            text: 'Search'
+            size_hint_x: 0.2
+            font_size: '18dp'
+            background_normal: ''
+            background_color: 0.8, 0.8, 0.8, 1  # monochromatic gray
+            color: 0.1, 0.1, 0.1, 1
+            on_release: root.search_word(word_input.text)
+
+    # Main Result Display Area
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_y: 1
+
+        Label:
+            id: status_label
+            text: 'Enter a word to begin searching for context.'
+            size_hint_y: None
+            height: '30dp'
+            color: 0.2, 0.2, 0.2, 1
+            font_size: '20dp'
+            text_size: self.width, None
+            halign: 'center'
+            valign: 'middle'
+            font_name: 'HinaMincho'
+
+        ScrollView:
+            size_hint_y: 1
+            background_color: 1, 0.98, 0.94, 1
+            canvas.before:
+                Color:
+                    rgba: 1, 0.98, 0.94, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            
+            Label:
+                id: context_label
+                text: ''
+                markup: True
+                text_size: self.width - 20, None
+                halign: 'left'
+                valign: 'top'
+                padding: [10, 10, 10, 10]
+                size_hint_y: None
+                height: self.texture_size[1]
+                color: 0.1, 0.1, 0.1, 1
+                font_size: '32dp'
+                font_name: 'HinaMincho'
+
+    # Bottom Control Buttons
+    BoxLayout:
+        size_hint_y: None
+        height: '48dp'
+        spacing: 10
+
+        Button:
+            id: prev_btn
+            text: 'Previous'
+            disabled: True
+            font_size: '18dp'
+            background_normal: ''
+            background_color: 0.85, 0.85, 0.85, 1  # neutral light gray
+            color: 0.1, 0.1, 0.1, 1
+            on_release: root.show_previous()
+
+        Button:
+            id: tts_btn
+            text: 'Read Aloud'
+            disabled: True
+            font_size: '18dp'
+            background_normal: ''
+            background_color: 0.8, 0.8, 0.8, 1  # same monochrome tone
+            color: 0.1, 0.1, 0.1, 1
+            on_release: root.read_context()
+
+        Button:
+            id: next_btn
+            text: 'Next'
+            disabled: True
+            font_size: '18dp'
+            background_normal: ''
+            background_color: 0.85, 0.85, 0.85, 1
+            color: 0.1, 0.1, 0.1, 1
+            on_release: root.show_next()
