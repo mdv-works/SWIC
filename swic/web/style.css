@@ -122,6 +122,51 @@ button:disabled {
   color: #a05a2c;
 }
 
+/* --- Metadata Area (New) --- */
+#metadataArea {
+  width: 750px;
+  align-self: center;
+  margin-top: 1.5rem; /* Increased margin to separate from contextArea */
+  padding: 1rem 0;
+  color: #5a4a3e;
+  font-size: 0.95rem;
+  transition: opacity 0.3s ease, height 0.3s ease, margin 0.3s ease;
+}
+
+#metadataArea.hidden {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  border-top: none;
+}
+
+#metadataArea ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  /* Stacks items vertically, one per line */
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#metadataArea li {
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+#metadataArea a {
+  color: #a05a2c;
+  text-decoration: none;
+}
+
+#metadataArea a:hover {
+  text-decoration: underline;
+}
+
 /* --- Control Buttons --- */
 .controls {
   display: flex;
@@ -153,5 +198,12 @@ button:disabled {
   }
   #contextArea {
     font-size: 1.2rem;
+    width: 100%;
+    padding: 2rem;
+    line-height: 2.5rem;
+  }
+  #metadataArea {
+    width: 100%;
+    padding: 1rem;
   }
 }
