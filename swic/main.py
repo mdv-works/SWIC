@@ -144,11 +144,11 @@ class ContextFinderLayout:
         
         # Regex to find all document blocks:
         # r'\n?\s*': Optional leading newline/whitespace.
-        # Group 1: (\d+,[^,]+,[^,]+,[^,]+) -> The four unquoted metadata fields.
-        # Group 2: "([^"]*)" -> The multi-line text content inside quotes.
-        # re.DOTALL ensures '.' matches newlines within the quoted text block.
+        # We now match the ID field (\d+) but DON'T capture it.
+        # Group 1: The three metadata fields: URL, AUTHOR, TITLE.
+        # Group 2: The multi-line text content inside quotes.
         doc_pattern = re.compile(
-            r'\n?\s*(\d+,[^,]+,[^,]+,[^,]+),"([^"]*)"', 
+            r'\n?\s*\d+,([^,]+,[^,]+,[^,]+),"([^"]*)"',  # <-- MODIFIED LINE
             re.DOTALL
         )
         

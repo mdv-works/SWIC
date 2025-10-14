@@ -15,8 +15,10 @@ function displayMetadata(metadata) {
   container.classList.remove("hidden");
 
   const ul = document.createElement("ul");
-  metadata.forEach((item) => {
+  // Change: Use index (i) when iterating
+  metadata.forEach((item, i) => {
     const li = document.createElement("li");
+
     // Check if item is a URL to make it a link
     if (item.startsWith("http")) {
       const a = document.createElement("a");
@@ -27,6 +29,12 @@ function displayMetadata(metadata) {
     } else {
       li.textContent = item;
     }
+
+    // New: Add class to the second field (Author), which is index 1
+    if (i === 2) {
+      li.classList.add("metadata-author");
+    }
+
     ul.appendChild(li);
   });
   container.appendChild(ul);
