@@ -309,7 +309,7 @@ button:disabled {
 /* Reading (ruby) toggle positioned under font select */
 .reading-switch {
   position: absolute;
-  top: 7.2rem;
+  top: 8rem;
   left: 2rem;
   font-size: 0.9rem;
 }
@@ -322,4 +322,5 @@ button:disabled {
 #contextArea rt {
   font-size: 0.5em;
   color: #6b5c4f;
+  user-select: none;
 }

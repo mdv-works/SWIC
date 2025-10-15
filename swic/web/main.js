@@ -5,6 +5,7 @@ let readingsEnabled = false;
 let kuromojiTokenizer = null;
 let kuromojiReady = false;
 let lastBaseHtml = ""; // highlighted HTML without ruby (source of truth)
+let lastBlockText = ""; // raw block text from backend (with <br>), before highlight
 
 // Helper: display metadata list below the context
 function displayMetadata(metadata) {
@@ -251,12 +252,22 @@ function applyRubyToNode(node) {
   for (const child of children) applyRubyToNode(child);
 }
 
+function annotateBlockHtml(blockHtml) {
+  const withNewlines = (blockHtml || "").replace(/<br\s*\/?>/gi, "\n");
+  const plain = withNewlines.replace(/<[^>]+>/g, "");
+  const annotated = annotateWithRuby(plain);
+  return annotated.replace(/\n/g, "<br>");
+}
+
 function renderContext(text) {
   const contextArea = document.getElementById("contextArea");
-  lastBaseHtml = highlight(text, currentWord);
-  contextArea.innerHTML = lastBaseHtml;
+  lastBlockText = text || "";
+  lastBaseHtml = highlight(lastBlockText, currentWord);
   if (readingsEnabled && kuromojiReady) {
-    applyRubyToNode(contextArea);
+    const annotatedBlock = annotateBlockHtml(lastBlockText);
+    contextArea.innerHTML = highlight(annotatedBlock, currentWord);
+  } else {
+    contextArea.innerHTML = lastBaseHtml;
   }
 }
 
