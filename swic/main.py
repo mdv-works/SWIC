@@ -20,6 +20,7 @@ from config import (
     RESOURCES_DIR, DEFAULT_SOURCE_FILE, FONT_FILE, FONT_DIR, FONT_URL,
     DEFAULT_CONTEXT_SENTENCES
 )
+from sources import get_parser_for_filename
 
 
 # --- Utility Functions (unchanged) ---
@@ -69,11 +70,13 @@ class ContextFinderLayout:
     def __init__(self):
         self.context_size = DEFAULT_CONTEXT_SENTENCES
         self.all_sentences = []
+        self.all_sentence_metadata = []  # Per-sentence metadata when available
         self.match_indices = []
         self.current_match_index = -1
         self.current_word = ''
         self.current_source = DEFAULT_SOURCE_FILE
         self.sources = self.detect_sources()
+        self._joiner = ''  # How to join context sentences for display
         
         # New properties for metadata handling
         self.documents = []           # Stores parsed document objects: {metadata: list, text: str}
@@ -194,39 +197,50 @@ class ContextFinderLayout:
 
 
     def load_data(self):
-        """Loads Japanese text corpus and metadata into memory using conditional parsing."""
+        """Loads Japanese text corpus and metadata into memory using per-source parsers."""
         print(f"Loading text database from {self.current_source}...")
         self.documents = []
         self.all_sentences = []
-        self.sentence_to_doc_map = [] # Reset map
-        
+        self.all_sentence_metadata = []
+        self.sentence_to_doc_map = []  # Reset map
+
         try:
             with open(self.current_source, 'r', encoding='utf-8') as f:
                 content = f.read()
 
-            # Strip leading/trailing whitespace/newlines from the entire file content
             content = content.strip()
-            
-            # --- Conditional Parsing Logic ---
-            filename = os.path.basename(self.current_source).lower()
-            if 'aozora' in filename:
-                self.documents = self.parse_aozora_data(content)
-                print(f"Using Aozora structured parser for {filename}.")
-            else:
-                self.documents = self.parse_simple_text_data(content)
-                print(f"Using simple text parser for {filename}.")
-            # -----------------------------------
+
+            filename_only = os.path.basename(self.current_source)
+            parser = get_parser_for_filename(filename_only)
+            self.documents = parser.parse(content, self.current_source)
+            print(f"Using parser: {parser.__class__.__name__} for {filename_only}.")
+
+            # For Anime parser, show one line per original line using <br>
+            self._joiner = '<br>' if parser.__class__.__name__ == 'BunchaAnimeParser' else ''
 
             if not self.documents:
-                print(f"Error: No documents successfully parsed from {os.path.basename(self.current_source)}.")
+                print(
+                    f"Error: No documents successfully parsed from {filename_only}."
+                )
                 return
 
             print(f"Loaded {len(self.documents)} documents.")
 
             for doc_index, doc in enumerate(self.documents):
-                sentences = split_text_into_sentences(doc['text'])
+                if 'sentences' in doc and isinstance(doc['sentences'], list):
+                    sentences = [s for s in doc['sentences'] if isinstance(s, str) and s.strip()]
+                    # Per-sentence metadata if provided (e.g., Anime)
+                    if 'sentence_meta' in doc and isinstance(doc['sentence_meta'], list):
+                        metas = [m if isinstance(m, list) else [] for m in doc['sentence_meta']]
+                        if len(metas) != len(sentences):
+                            metas = metas[:len(sentences)] + [[]] * max(0, len(sentences) - len(metas))
+                    else:
+                        metas = [[] for _ in sentences]
+                else:
+                    sentences = split_text_into_sentences(doc['text'])
+                    metas = [[] for _ in sentences]
                 self.all_sentences.extend(sentences)
-                # Map each new sentence index to its document index
+                self.all_sentence_metadata.extend(metas)
                 self.sentence_to_doc_map.extend([doc_index] * len(sentences))
 
             print(f"Total sentences: {len(self.all_sentences)}")
@@ -241,15 +255,12 @@ class ContextFinderLayout:
     
     def _get_context_metadata(self):
         """
-        Return the metadata for the source document of the current match, 
-        but ONLY if the source is an Aozora-style file.
+        Return metadata for the current match:
+        - If per-sentence metadata is available (e.g., Anime), return that.
+        - Else, for Aozora sources, return document-level metadata.
+        - Otherwise, return empty list to keep UI unchanged.
         """
-        
-        # --- Conditional Metadata Return (Root Logic) ---
         filename = os.path.basename(self.current_source).lower()
-        if 'aozora' not in filename:
-            return [] # Disable metadata display for non-Aozora files
-        # ------------------------------------------------
 
         if self.current_match_index == -1 or not self.match_indices:
             return []
@@ -257,10 +268,19 @@ class ContextFinderLayout:
         target_sentence_index = self.match_indices[self.current_match_index]
         
         if 0 <= target_sentence_index < len(self.sentence_to_doc_map):
-            doc_index = self.sentence_to_doc_map[target_sentence_index]
-            if 0 <= doc_index < len(self.documents):
-                # Return the list of metadata strings
-                return self.documents[doc_index]['metadata']
+            # 1) Per-sentence metadata (Anime)
+            if 0 <= target_sentence_index < len(self.all_sentence_metadata):
+                per_sent = self.all_sentence_metadata[target_sentence_index]
+                if isinstance(per_sent, list) and len(per_sent) > 0:
+                    return per_sent
+
+            # 2) Aozora document-level metadata
+            if 'aozora' in filename:
+                doc_index = self.sentence_to_doc_map[target_sentence_index]
+                if 0 <= doc_index < len(self.documents):
+                    meta = self.documents[doc_index].get('metadata', [])
+                    if isinstance(meta, list):
+                        return meta
         return []
 
     def search_word_js(self, word):
@@ -323,7 +343,7 @@ class ContextFinderLayout:
             else:
                 output_lines.append(s)
 
-        formatted = "".join(output_lines)
+        formatted = self._joiner.join(output_lines)
         return formatted
 
     def next_result(self):
