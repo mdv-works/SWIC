@@ -57,6 +57,23 @@ function setWritingMode(mode) {
   }
 }
 
+// Font selection for context area only
+const FONT_MAP = {
+  "Hina Mincho": "'Hina Mincho', 'Noto Serif JP', serif",
+  "Noto Serif JP": "'Noto Serif JP', serif",
+  "Noto Sans JP": "'Noto Sans JP', sans-serif",
+  "Shippori Mincho": "'Shippori Mincho', serif",
+  "Kosugi Maru": "'Kosugi Maru', sans-serif",
+  "M PLUS Rounded 1c": "'M PLUS Rounded 1c', sans-serif",
+  "Sawarabi Mincho": "'Sawarabi Mincho', serif",
+  "Yuji Syuku": "'Yuji Syuku', serif",
+};
+
+function setFont(name) {
+  const fam = FONT_MAP[name] || FONT_MAP["Hina Mincho"];
+  document.documentElement.style.setProperty("--context-font", fam);
+}
+
 async function search() {
   const word = document.getElementById("wordInput").value.trim();
   const size = document.getElementById("contextSelect").value;
@@ -89,6 +106,18 @@ async function search() {
   ) {
     contextArea.innerHTML = highlight(result.text, currentWord);
     displayMetadata(result.metadata); // Display metadata
+    // Show current/total after initial search
+    setTimeout(async () => {
+      const state = await eel.get_current_state()();
+      if (
+        state &&
+        typeof state.current === 'number' &&
+        typeof state.total === 'number' &&
+        state.total > 0
+      ) {
+        status.innerText = `Results for '${word}': ${state.current + 1}/${state.total}`;
+      }
+    }, 0);
 
     if (result.count > 0) {
       // Display the total count
@@ -137,6 +166,18 @@ async function search() {
   ) {
     contextArea.innerHTML = highlight(result.text, currentWord);
     displayMetadata(result.metadata); // Display metadata
+    // Show current/total after initial search
+    setTimeout(async () => {
+      const state = await eel.get_current_state()();
+      if (
+        state &&
+        typeof state.current === 'number' &&
+        typeof state.total === 'number' &&
+        state.total > 0
+      ) {
+        status.innerText = `Results for '${word}': ${state.current + 1}/${state.total}`;
+      }
+    }, 0);
 
     if (result.count > 0) {
       // Display the total count
@@ -167,6 +208,17 @@ async function prev() {
       currentWord
     );
     displayMetadata(result.metadata); // Update metadata
+    // Update status with current/total
+    const statePrev = await eel.get_current_state()();
+    if (
+      statePrev &&
+      typeof statePrev.current === 'number' &&
+      typeof statePrev.total === 'number' &&
+      statePrev.total > 0
+    ) {
+      const status = document.getElementById("status");
+      status.innerText = `Results for '${currentWord}': ${statePrev.current + 1}/${statePrev.total}`;
+    }
   }
 }
 
@@ -184,6 +236,17 @@ async function next() {
       currentWord
     );
     displayMetadata(result.metadata); // Update metadata
+    // Update status with current/total
+    const stateNext = await eel.get_current_state()();
+    if (
+      stateNext &&
+      typeof stateNext.current === 'number' &&
+      typeof stateNext.total === 'number' &&
+      stateNext.total > 0
+    ) {
+      const status = document.getElementById("status");
+      status.innerText = `Results for '${currentWord}': ${stateNext.current + 1}/${stateNext.total}`;
+    }
   }
 }
 
@@ -200,6 +263,13 @@ function highlight(text, word) {
 
 window.onload = async function () {
   const select = document.getElementById("sourceSelect");
+  // Initialize font selector
+  const fontSelect = document.getElementById("fontSelect");
+  if (fontSelect) {
+    fontSelect.addEventListener("change", () => setFont(fontSelect.value));
+    // Default to Hina Mincho
+    setFont(fontSelect.value || "Hina Mincho");
+  }
   const sources = await eel.get_sources()();
 
   if (sources && sources.length > 0) {

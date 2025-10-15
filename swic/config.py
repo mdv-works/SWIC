@@ -8,13 +8,8 @@ RESOURCES_DIR = os.path.join(os.path.dirname(__file__), 'resources')
 # Default file (fallback)
 DEFAULT_SOURCE_FILE = os.path.join(RESOURCES_DIR, 'Aozora Corpus.csv')
 
-# Font file (should be placed in a 'resources/fonts/' directory)
-# Using the same font URL as in the reference code for consistency
-FONT_URL = "https://github.com/google/fonts/raw/master/ofl/hinamincho/HinaMincho-Regular.ttf"
-FONT_DIR = os.path.join(os.path.dirname(__file__), 'resources', 'fonts')
-FONT_FILE = os.path.join(FONT_DIR, 'HinaMincho-Regular.ttf')
 
-# Kivy Language (KV) file
+# Kivy Language (KV) file (kept for reference)
 KV_FILE = 'context_finder.kv'
 
 # --- Application Settings ---

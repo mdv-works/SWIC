@@ -5,10 +5,9 @@ import re
 import threading
 import tempfile
 import time
-import urllib.request
+# urllib no longer needed for font download
 
 # ---- Kivy parts kept (for reference or reuse later) ----
-from kivy.core.text import LabelBase
 from kivy.core.audio import SoundLoader
 from gtts import gTTS
 
@@ -17,31 +16,13 @@ import eel
 
 # Import configuration settings
 from config import (
-    RESOURCES_DIR, DEFAULT_SOURCE_FILE, FONT_FILE, FONT_DIR, FONT_URL,
+    RESOURCES_DIR, DEFAULT_SOURCE_FILE,
     DEFAULT_CONTEXT_SENTENCES
 )
 from sources import get_parser_for_filename
 
 
-# --- Utility Functions (unchanged) ---
-def ensure_font_downloaded():
-    """Ensures the custom Japanese font is downloaded and available."""
-    if not os.path.exists(FONT_DIR):
-        os.makedirs(FONT_DIR)
-        print(f"Created font directory: {FONT_DIR}")
-
-    if not os.path.exists(FONT_FILE):
-        try:
-            print(f"Downloading font from {FONT_URL}...")
-            urllib.request.urlretrieve(FONT_URL, FONT_FILE)
-            print(f"Successfully downloaded font to: {FONT_FILE}")
-        except Exception as e:
-            print(f"Error downloading font: {e}")
-            pass
-
-
-ensure_font_downloaded()
-LabelBase.register(name='HinaMincho', fn_regular=FONT_FILE)
+# --- Utility Functions (font download removed; web uses Google Fonts) ---
 
 
 # --- Core Logic (adapted for Eel) ---

@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <title>Japanese Context Finder</title>
     <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Kosugi+Maru&family=M+PLUS+Rounded+1c:wght@400;700&family=Sawarabi+Mincho&family=Yuji+Syuku&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="app">
@@ -22,6 +19,19 @@
         <button id="yokogakiBtn" onclick="setWritingMode('yokogaki')">
           Yokogaki
         </button>
+      </div>
+      <div class="font-select">
+        <label for="fontSelect">Font</label>
+        <select id="fontSelect">
+          <option value="Hina Mincho">Hina Mincho</option>
+          <option value="Noto Serif JP">Noto Serif JP</option>
+          <option value="Noto Sans JP">Noto Sans JP</option>
+          <option value="Shippori Mincho">Shippori Mincho</option>
+          <option value="Kosugi Maru">Kosugi Maru</option>
+          <option value="M PLUS Rounded 1c">M PLUS Rounded 1c</option>
+          <option value="Sawarabi Mincho">Sawarabi Mincho</option>
+          <option value="Yuji Syuku">Yuji Syuku</option>
+        </select>
       </div>
       <div class="search-row">
         <input

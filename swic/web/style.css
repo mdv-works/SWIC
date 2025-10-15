@@ -9,7 +9,7 @@ html {
 
 body {
   background: #f8f4ec;
-  font-family: "HinaMincho", "Noto Serif JP", serif;
+  font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #2b2119;
   margin: 0;
   padding: 0;
@@ -39,7 +39,7 @@ body {
   border: 1px solid #cbbca6; /* Same border as inputs for coherence */
   border-radius: 0px;
   overflow: hidden; /* To manage the border and active state */
-  font-family: Arial, Helvetica, sans-serif;
+  /* inherit UI font from body */
 }
 
 .style-switch button {
@@ -51,7 +51,7 @@ body {
   border: none;
   border-radius: 0px;
   transition: all 0.1s ease;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: inherit;
 }
 
 /* Ensure the hover is clear */
@@ -75,7 +75,7 @@ h1 {
   color: #3c2f25;
   margin-top: 0;
   margin-bottom: 1.5rem;
-  font-family: Arial, Helvetica, sans-serif;
+  /* inherit UI font from body */
 }
 
 /* --- Search Row --- */
@@ -113,7 +113,7 @@ button {
   color: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: inherit;
 }
 
 button:hover {
@@ -131,6 +131,7 @@ button:disabled {
   font-size: 1rem;
   color: #5a4a3e;
   margin-bottom: 1rem;
+  font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* --- Context Display (Tategaki - Vertical Japanese text - Default) --- */
@@ -141,7 +142,7 @@ button:disabled {
   border-radius: 0px;
   padding: 5rem;
   font-size: 1.4rem;
-  font-family: "Hina Mincho", "Noto Serif JP", serif;
+  font-family: var(--context-font, "Hina Mincho", "Noto Serif JP", serif);
   line-height: 3rem;
   color: #1a120a;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0);
@@ -205,7 +206,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  font-family: Arial, Helvetica, sans-serif;
+  /* inherit UI font from body */
 }
 
 #metadataArea li {
@@ -237,7 +238,7 @@ button:disabled {
   font-size: 1rem;
   letter-spacing: 0.03em;
   border-radius: 0px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: inherit;
 }
 
 .controls button:hover {
@@ -277,4 +278,28 @@ button:disabled {
 
 #metadataArea li.metadata-author {
   font-weight: bold;
+}
+
+/* --- Font Selector --- */
+.font-select {
+  position: absolute;
+  top: 4.8rem; /* Below style switch */
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.font-select label {
+  color: #5a4a3e;
+}
+
+.font-select select {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #cbbca6;
+  background: #fdfaf5;
+  color: #2b2119;
+  border-radius: 0px;
 }
