@@ -9,7 +9,8 @@ html {
 
 body {
   background: #f8f4ec;
-  font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   color: #2b2119;
   margin: 0;
   padding: 0;
@@ -131,7 +132,8 @@ button:disabled {
   font-size: 1rem;
   color: #5a4a3e;
   margin-bottom: 1rem;
-  font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 }
 
 /* --- Context Display (Tategaki - Vertical Japanese text - Default) --- */
@@ -302,4 +304,22 @@ button:disabled {
   background: #fdfaf5;
   color: #2b2119;
   border-radius: 0px;
+}
+
+/* Reading (ruby) toggle positioned under font select */
+.reading-switch {
+  position: absolute;
+  top: 7.2rem;
+  left: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Ruby styling for readability */
+#contextArea ruby {
+  ruby-position: over;
+}
+
+#contextArea rt {
+  font-size: 0.5em;
+  color: #6b5c4f;
 }

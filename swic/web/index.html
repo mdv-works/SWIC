@@ -20,6 +20,12 @@
           Yokogaki
         </button>
       </div>
+      <div class="reading-switch">
+        <label>
+          <input type="checkbox" id="readingToggle" />
+          Show Readings (ruby)
+        </label>
+      </div>
       <div class="font-select">
         <label for="fontSelect">Font</label>
         <select id="fontSelect">
@@ -66,6 +72,11 @@
       </div>
     </div>
 
+    <!-- Optional: Include kuromoji.js if you place it under web/kuromoji/ -->
+    <!-- Copy node_modules/kuromoji/dist/kuromoji.js to web/kuromoji/ -->
+    <!-- And copy node_modules/kuromoji/dict folder to web/kuromoji/dict -->
+    <script src="kuromoji/kuromoji.js"></script>
+    <script src="kuromoji/kuromoji.js"></script>
     <script src="/eel.js"></script>
     <script src="main.js"></script>
   </body>
