@@ -11,37 +11,40 @@
   </head>
   <body>
     <div id="app">
-      <div class="style-switch">
-        <button
-          id="tategakiBtn"
-          onclick="setWritingMode('tategaki')"
-          class="active"
-        >
-          Tategaki
-        </button>
-        <button id="yokogakiBtn" onclick="setWritingMode('yokogaki')">
-          Yokogaki
-        </button>
+      <label>Visual settings</label>
+      <div class="options-row">
+        <div class="style-switch">
+          <button
+            id="tategakiBtn"
+            onclick="setWritingMode('tategaki')"
+            class="active"
+          >
+            Tategaki
+          </button>
+          <button id="yokogakiBtn" onclick="setWritingMode('yokogaki')">
+            Yokogaki
+          </button>
+        </div>
+        <div class="font-select">
+          <select id="fontSelect">
+            <option value="Hina Mincho">Hina Mincho</option>
+            <option value="Noto Serif JP">Noto Serif JP</option>
+            <option value="Noto Sans JP">Noto Sans JP</option>
+            <option value="Shippori Mincho">Shippori Mincho</option>
+            <option value="Kosugi Maru">Kosugi Maru</option>
+            <option value="M PLUS Rounded 1c">M PLUS Rounded 1c</option>
+            <option value="Sawarabi Mincho">Sawarabi Mincho</option>
+            <option value="Yuji Syuku">Yuji Syuku</option>
+          </select>
+        </div>
+        <div class="reading-switch">
+          <label>
+            <input type="checkbox" id="readingToggle" />
+            Show readings
+          </label>
+        </div>
       </div>
-      <div class="reading-switch">
-        <label>
-          <input type="checkbox" id="readingToggle" />
-          Show Readings (ruby)
-        </label>
-      </div>
-      <div class="font-select">
-        <label for="fontSelect">Font</label>
-        <select id="fontSelect">
-          <option value="Hina Mincho">Hina Mincho</option>
-          <option value="Noto Serif JP">Noto Serif JP</option>
-          <option value="Noto Sans JP">Noto Sans JP</option>
-          <option value="Shippori Mincho">Shippori Mincho</option>
-          <option value="Kosugi Maru">Kosugi Maru</option>
-          <option value="M PLUS Rounded 1c">M PLUS Rounded 1c</option>
-          <option value="Sawarabi Mincho">Sawarabi Mincho</option>
-          <option value="Yuji Syuku">Yuji Syuku</option>
-        </select>
-      </div>
+      <label>Search settings</label>
       <div class="search-row">
         <input
           id="wordInput"
@@ -64,14 +67,15 @@
       <div id="contextArea"></div>
 
       <!-- New Metadata Display Area at the bottom -->
+
       <div id="metadataArea" class="hidden">
         <!-- Metadata will be displayed here -->
       </div>
 
       <div class="controls">
-        <button onclick="prev()">Previous</button>
-        <button onclick="readAloud()">Read</button>
-        <button onclick="next()">Next</button>
+        <button onclick="prev()">⮜</button>
+        <button onclick="readAloud()">🕪</button>
+        <button onclick="next()">⮞</button>
       </div>
     </div>
 

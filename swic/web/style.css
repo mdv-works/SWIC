@@ -4,7 +4,7 @@
 }
 
 html {
-  font-size: 1.2em;
+  font-size: 1.15em;
 }
 
 body {
@@ -17,6 +17,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 /* --- Main Container --- */
@@ -24,21 +25,22 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  justify-items: center;
   height: 100%;
-  width: 100%;
-  padding: 2rem 4rem;
+  width: 950px;
+  padding: 1.2rem 3rem;
   /* Add relative positioning for absolute positioning of the switch */
   position: relative;
 }
 
 /* --- Style Switch (New) --- */
 .style-switch {
-  position: absolute; /* Position relative to #app */
-  top: 1.5rem;
-  left: 2rem;
+  position: relative; /* Position relative to #app */
+  flex-direction: row;
+  width: 10rem;
   display: flex;
   border: 1px solid #cbbca6; /* Same border as inputs for coherence */
-  border-radius: 0px;
+  border-radius: 9999px;
   overflow: hidden; /* To manage the border and active state */
   /* inherit UI font from body */
 }
@@ -50,9 +52,9 @@ body {
   background: #fa8162;
   color: #ffffff;
   border: none;
-  border-radius: 0px;
   transition: all 0.1s ease;
   font-family: inherit;
+  border-radius: 0;
 }
 
 /* Ensure the hover is clear */
@@ -79,19 +81,38 @@ h1 {
   /* inherit UI font from body */
 }
 
+/* --- Options Row --- */
+.options-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: left;
+  margin-bottom: 0.75rem;
+  margin-top: 0.1rem;
+  padding-top: 0.75rem;
+  border-top: #dbc7b1 solid 1px;
+}
+
 /* --- Search Row --- */
 .search-row {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: left;
   align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  margin-top: 0.1rem;
+  padding-top: 0.75rem;
+  border-top: #dbc7b1 solid 1px;
 }
 
 input[type="text"],
 select {
-  font-size: 1rem;
-  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.8rem;
   border: 1px solid #cbbca6;
   border-radius: 0px;
   background: #fdfaf5;
@@ -107,9 +128,9 @@ select:focus {
 
 button {
   font-size: 1rem;
-  padding: 0.6rem 1.2rem;
+  padding: 0.4rem 1.2rem;
   border: none;
-  border-radius: 0px;
+  border-radius: 9999px;
   background: #fa8162;
   color: #ffffff;
   cursor: pointer;
@@ -129,9 +150,9 @@ button:disabled {
 /* --- Status Bar --- */
 #status {
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: #5a4a3e;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -139,10 +160,11 @@ button:disabled {
 /* --- Context Display (Tategaki - Vertical Japanese text - Default) --- */
 #contextArea {
   flex: 1;
-  width: 750px;
+  width: 100%;
   border: 1px solid #e2d8c7;
+  background-color: rgb(246, 245, 241);
   border-radius: 0px;
-  padding: 5rem;
+  padding: 3.5rem;
   font-size: 1.4rem;
   font-family: var(--context-font, "Hina Mincho", "Noto Serif JP", serif);
   line-height: 3rem;
@@ -181,12 +203,12 @@ button:disabled {
 
 /* --- Metadata Area (New) --- */
 #metadataArea {
-  width: 750px;
+  width: 100%;
   align-self: center;
   margin-top: 0.5rem; /* Increased margin to separate from contextArea */
   padding: 0.5rem 0;
   color: #5a4a3e;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   transition: opacity 0.3s ease, height 0.3s ease, margin 0.3s ease;
 }
 
@@ -229,15 +251,15 @@ button:disabled {
 .controls {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 0.1em;
+  gap: 0.1rem;
 }
 
 .controls button {
-  min-width: 130px;
+  width: 100%;
   background: #fa8162;
   color: rgb(255, 255, 255);
-  font-size: 1rem;
+  font-size: 1.35rem;
   letter-spacing: 0.03em;
   border-radius: 0px;
   font-family: inherit;
@@ -247,58 +269,12 @@ button:disabled {
   background: #7e2d18;
 }
 
-/* --- Responsive --- */
-@media (max-width: 768px) {
-  #app {
-    padding: 1rem;
-  }
-
-  /* Adjust style-switch positioning for small screens */
-  .style-switch {
-    position: static; /* Let it flow normally */
-    margin-bottom: 1rem;
-    align-self: flex-start;
-  }
-
-  .search-row {
-    flex-direction: column;
-  }
-  #contextArea {
-    font-size: 1.2rem;
-    width: 100%;
-    padding: 2rem;
-    line-height: 2.5rem;
-  }
-  #contextArea.yokogaki {
-    padding: 2rem; /* Responsive padding for horizontal mode */
-  }
-  #metadataArea {
-    width: 100%;
-    padding: 1rem;
-  }
-}
-
-#metadataArea li.metadata-author {
-  font-weight: bold;
-}
-
-/* --- Font Selector --- */
-.font-select {
-  position: absolute;
-  top: 4.8rem; /* Below style switch */
-  left: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
-
 .font-select label {
   color: #5a4a3e;
 }
 
 .font-select select {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   padding: 0.3rem 0.5rem;
   border: 1px solid #cbbca6;
   background: #fdfaf5;
@@ -308,10 +284,10 @@ button:disabled {
 
 /* Reading (ruby) toggle positioned under font select */
 .reading-switch {
-  position: absolute;
-  top: 8rem;
-  left: 2rem;
-  font-size: 0.9rem;
+  position: relative;
+  flex-direction: row;
+  font-size: 0.85rem;
+  user-select: none;
 }
 
 /* Ruby styling for readability */
@@ -323,4 +299,16 @@ button:disabled {
   font-size: 0.5em;
   color: #6b5c4f;
   user-select: none;
+}
+
+label {
+  font-size: 0.75rem;
+  color: #6b5c4f;
+}
+
+@media (max-width: 1100px) {
+  #app {
+    width: 100%;
+    justify-content: center;
+  }
 }
