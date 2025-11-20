@@ -3,15 +3,50 @@
   box-sizing: border-box;
 }
 
+:root {
+  --context-font-size: 1.4rem;
+  --app-bg: #f8f4ec;
+  --text-color: #2b2119;
+  --panel-bg: #f6f5f1;
+  --border-color: #e2d8c7;
+  --input-bg: #fdfaf5;
+  --status-color: #5a4a3e;
+  --metadata-color: #5a4a3e;
+  --accent: #fa8162;
+  --accent-hover: #7e2d18;
+  --context-text: #1a120a;
+  --slider-track: #d5c5b2;
+  --reading-color: #6b5c4f;
+  --link-color: #a05a2c;
+  --highlight-color: #d4510a;
+}
+
+body.theme-dark {
+  --app-bg: #070606;
+  --text-color: #f6efe6;
+  --panel-bg: #1f1a18;
+  --border-color: #3a2f27;
+  --input-bg: #26201e;
+  --status-color: #e0d5c9;
+  --metadata-color: #ddd0c3;
+  --accent: #2b2622;
+  --accent-hover: #000000;
+  --context-text: #f5ede2;
+  --slider-track: #413e3e;
+  --reading-color: #a09797;
+  --link-color: #d8d1c9;
+  --highlight-color: #8c88ff;
+}
+
 html {
   font-size: 1.15em;
 }
 
 body {
-  background: #f8f4ec;
+  background: var(--app-bg);
   font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto,
     "Helvetica Neue", Arial, sans-serif;
-  color: #2b2119;
+  color: var(--text-color);
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -39,7 +74,7 @@ body {
   flex-direction: row;
   width: 10rem;
   display: flex;
-  border: 1px solid #cbbca6; /* Same border as inputs for coherence */
+  border: 1px solid var(--border-color); /* Same border as inputs for coherence */
   border-radius: 9999px;
   overflow: hidden; /* To manage the border and active state */
   /* inherit UI font from body */
@@ -49,7 +84,7 @@ body {
   /* Reset button styles for the switch */
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
-  background: #fa8162;
+  background: var(--accent);
   color: #ffffff;
   border: none;
   transition: all 0.1s ease;
@@ -59,12 +94,12 @@ body {
 
 /* Ensure the hover is clear */
 .style-switch button:hover {
-  background: #7e2d18;
+  background: var(--accent-hover);
 }
 
 /* Style for the active/selected mode */
 .style-switch button.active {
-  background: #7e2d18; /* Highlight the active one */
+  background: var(--accent-hover); /* Highlight the active one */
   color: #ffffff;
   pointer-events: none; /* Disable clicking the active button */
 }
@@ -75,7 +110,7 @@ h1 {
   font-size: 2rem;
   text-align: center;
   letter-spacing: 0.05em;
-  color: #3c2f25;
+  color: var(--text-color);
   margin-top: 0;
   margin-bottom: 1.5rem;
   /* inherit UI font from body */
@@ -93,7 +128,60 @@ h1 {
   margin-bottom: 0.75rem;
   margin-top: 0.1rem;
   padding-top: 0.75rem;
-  border-top: #dbc7b1 solid 1px;
+  border-top: var(--border-color) solid 1px;
+}
+
+.text-size-control {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--status-color);
+}
+
+.text-size-control input[type="range"] {
+  appearance: none;
+  width: 6rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--slider-track);
+  outline: none;
+}
+
+.text-size-control input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.text-size-control input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: none;
+}
+
+.text-size-value {
+  min-width: 2rem;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme-toggle {
+  font-size: 0.85rem;
+  color: var(--status-color);
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.theme-toggle input {
+  margin-right: 0.3rem;
 }
 
 /* --- Search Row --- */
@@ -106,24 +194,24 @@ h1 {
   margin-bottom: 1.2rem;
   margin-top: 0.1rem;
   padding-top: 0.75rem;
-  border-top: #dbc7b1 solid 1px;
+  border-top: var(--border-color) solid 1px;
 }
 
 input[type="text"],
 select {
   font-size: 0.95rem;
   padding: 0.4rem 0.8rem;
-  border: 1px solid #cbbca6;
+  border: 1px solid var(--border-color);
   border-radius: 0px;
-  background: #fdfaf5;
-  color: #2b2119;
+  background: var(--input-bg);
+  color: var(--text-color);
   outline: none;
   transition: box-shadow 0.2s ease;
 }
 
 input:focus,
 select:focus {
-  box-shadow: 0 0 0 2px #d1bfa2;
+  box-shadow: 0 0 0 2px rgba(209, 191, 162, 0.6);
 }
 
 button {
@@ -131,7 +219,7 @@ button {
   padding: 0.4rem 1.2rem;
   border: none;
   border-radius: 9999px;
-  background: #fa8162;
+  background: var(--accent);
   color: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -139,7 +227,7 @@ button {
 }
 
 button:hover {
-  background: #7e2d18;
+  background: var(--accent-hover);
 }
 
 button:disabled {
@@ -151,7 +239,7 @@ button:disabled {
 #status {
   text-align: center;
   font-size: 0.85rem;
-  color: #5a4a3e;
+  color: var(--status-color);
   margin-bottom: 0.75rem;
   font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -161,14 +249,14 @@ button:disabled {
 #contextArea {
   flex: 1;
   width: 100%;
-  border: 1px solid #e2d8c7;
-  background-color: rgb(246, 245, 241);
+  border: 1px solid var(--border-color);
+  background-color: var(--panel-bg);
   border-radius: 0px;
   padding: 3.5rem;
-  font-size: 1.4rem;
+  font-size: var(--context-font-size, 1.4rem);
   font-family: var(--context-font, "Hina Mincho", "Noto Serif JP", serif);
-  line-height: 3rem;
-  color: #1a120a;
+  line-height: calc(var(--context-font-size, 1.4rem) * 2.1);
+  color: var(--context-text);
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0);
   align-self: center;
   /* === Vertical Japanese text (Corrected) === */
@@ -187,18 +275,21 @@ button:disabled {
   writing-mode: horizontal-tb;
   text-orientation: mixed;
   font-feature-settings: normal; /* Resetting feature settings */
-  line-height: 2; /* A standard line height for horizontal text */
+  line-height: calc(
+    var(--context-font-size, 1.4rem) * 1.5
+  ); /* Keep vertical rhythm proportional */
   overflow-x: hidden; /* No horizontal scroll needed */
   overflow-y: auto; /* Scroll vertically for long text */
   letter-spacing: normal; /* Reset letter spacing */
   padding: 2rem 3rem; /* Adjust padding for horizontal flow */
   height: auto; /* Allow height to expand vertically */
+  letter-spacing: 0.1rem;
 }
 
 /* Highlight search word */
 #contextArea strong,
 #contextArea b {
-  color: #d4510a;
+  color: var(--highlight-color);
 }
 
 /* --- Metadata Area (New) --- */
@@ -207,7 +298,7 @@ button:disabled {
   align-self: center;
   margin-top: 0.5rem; /* Increased margin to separate from contextArea */
   padding: 0.5rem 0;
-  color: #5a4a3e;
+  color: var(--metadata-color);
   font-size: 0.85rem;
   transition: opacity 0.3s ease, height 0.3s ease, margin 0.3s ease;
 }
@@ -239,7 +330,7 @@ button:disabled {
 }
 
 #metadataArea a {
-  color: #a05a2c;
+  color: var(--link-color);
   text-decoration: none;
 }
 
@@ -257,7 +348,7 @@ button:disabled {
 
 .controls button {
   width: 100%;
-  background: #fa8162;
+  background: var(--accent);
   color: rgb(255, 255, 255);
   font-size: 1.35rem;
   letter-spacing: 0.03em;
@@ -266,24 +357,25 @@ button:disabled {
 }
 
 .controls button:hover {
-  background: #7e2d18;
+  background: var(--accent-hover);
 }
 
 .font-select label {
-  color: #5a4a3e;
+  color: var(--status-color);
 }
 
 .font-select select {
   font-size: 0.95rem;
   padding: 0.3rem 0.5rem;
-  border: 1px solid #cbbca6;
-  background: #fdfaf5;
-  color: #2b2119;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
   border-radius: 0px;
 }
 
 /* Reading (ruby) toggle positioned under font select */
-.reading-switch {
+.reading-switch,
+.theme-toggle {
   position: relative;
   flex-direction: row;
   font-size: 0.85rem;
@@ -297,13 +389,13 @@ button:disabled {
 
 #contextArea rt {
   font-size: 0.5em;
-  color: #6b5c4f;
+  color: var(--reading-color);
   user-select: none;
 }
 
 label {
   font-size: 0.75rem;
-  color: #6b5c4f;
+  color: var(--status-color);
 }
 
 @media (max-width: 1100px) {

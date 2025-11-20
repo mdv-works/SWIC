@@ -66,6 +66,64 @@ function setFont(name) {
   document.documentElement.style.setProperty("--context-font", fam);
 }
 
+const DEFAULT_FONT_SIZE = 1.4;
+function setContextFontSize(size) {
+  let nextSize = parseFloat(size);
+  if (Number.isNaN(nextSize)) nextSize = DEFAULT_FONT_SIZE;
+  nextSize = Math.min(Math.max(nextSize, 0.8), 2.4);
+  document.documentElement.style.setProperty(
+    "--context-font-size",
+    `${nextSize}rem`
+  );
+  const display = document.getElementById("fontSizeValue");
+  const formatted = nextSize.toFixed(1);
+  if (display) {
+    display.textContent = formatted;
+  }
+  const slider = document.getElementById("fontSizeSlider");
+  if (slider && slider.value !== formatted) {
+    slider.value = formatted;
+  }
+}
+
+const THEME_STORAGE_KEY = "contextTheme";
+
+function applyThemeClass(theme) {
+  const isDark = theme === "dark";
+  document.body.classList.toggle("theme-dark", isDark);
+  const toggle = document.getElementById("themeToggle");
+  if (toggle) {
+    toggle.checked = isDark;
+  }
+}
+
+function setTheme(theme) {
+  const nextTheme = theme === "dark" ? "dark" : "light";
+  applyThemeClass(nextTheme);
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+  } catch (e) {
+    console.warn("Unable to persist theme preference:", e);
+  }
+}
+
+function initTheme() {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(THEME_STORAGE_KEY);
+  } catch (e) {
+    saved = null;
+  }
+  if (saved === "dark" || saved === "light") {
+    applyThemeClass(saved);
+    return;
+  }
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyThemeClass(prefersDark ? "dark" : "light");
+}
+
 // ---- Ruby (furigana) support ----
 const CJK_RE = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u3005\u3007]/;
 
@@ -383,6 +441,7 @@ function highlight(text, word) {
 window.onload = async function () {
   // Init kuromoji (non-blocking)
   initKuromoji();
+  initTheme();
 
   const select = document.getElementById("sourceSelect");
   const readingToggle = document.getElementById("readingToggle");
@@ -403,6 +462,24 @@ window.onload = async function () {
   if (fontSelect) {
     fontSelect.addEventListener("change", () => setFont(fontSelect.value));
     setFont(fontSelect.value || "Hina Mincho");
+  }
+
+  const fontSizeSlider = document.getElementById("fontSizeSlider");
+  if (fontSizeSlider) {
+    const initialSize = fontSizeSlider.value || DEFAULT_FONT_SIZE.toString();
+    setContextFontSize(initialSize);
+    fontSizeSlider.addEventListener("input", () =>
+      setContextFontSize(fontSizeSlider.value)
+    );
+  } else {
+    setContextFontSize(DEFAULT_FONT_SIZE);
+  }
+
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("change", () =>
+      setTheme(themeToggle.checked ? "dark" : "light")
+    );
   }
 
   // Populate sources
